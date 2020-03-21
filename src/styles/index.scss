@@ -1,13 +1,16 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
-/* 
+.container{
+    text-align: center;
+    background: black;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
-
-*/
+.container div{
+    display: inline-block;
+    font-size: 60px;
+    line-height: 80px;
+    background: black;
+    color: white;
+    padding:20px;
+    margin:3px;
+}
