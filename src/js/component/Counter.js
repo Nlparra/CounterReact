@@ -1,39 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import propTypes from "prop-types";
 
 export function Counter() {
-	const [one, setOne] = useState(0);
-	const [two, setTwo] = useState(0);
-	const [three, setThree] = useState(0);
-	const [four, setFour] = useState(0);
+	const [count, setCount] = useState(0);
 
-	let counter = 0;
-
-	useEffect(() => {
-		setInterval(function() {
-			setFour(Math.floor((counter / 1000) % 10));
-			setThree(Math.floor(counter / 100) % 100);
-			setTwo(Math.floor(counter / 10) % 10);
-			setOne(Math.floor(counter / 1) % 1);
-			counter++;
-		}, 1000);
-	});
+	useInterval(() => {
+		setCount(count + 1);
+	}, 1000);
 
 	return (
 		<div className="container">
 			<div className="calendar">
 				<i className="far fa-clock" />
 			</div>
-			<div className="four"> {four}</div>
-			<div className="three"> {three} </div>
-			<div className="two">{two}</div>
-			<div className="one"> {one} </div>
+			<div className="four"> {Math.floor(count / 100) % 10}</div>
+			<div className="three">{Math.floor(count / 100) % 10}</div>
+			<div className="two">{Math.floor(count / 10) % 10}</div>
+			<div className="one">{Math.floor(count / 1) % 10} </div>
 		</div>
 	);
 }
-// Counter.propTypes = {
-// 	numberFour: propTypes.number,
-// 	numberThree: propTypes.number,
-// 	numberTwo: propTypes.number,
-// 	numberOne: propTypes.number
-// };
+
+function useInterval(callback, delay) {
+	const savedCallback = useRef();
+	useEffect(
+		() => {
+			savedCallback.current = callback;
+		},
+		[callback]
+	);
+	useEffect(
+		() => {
+			function tick() {
+				savedCallback.current();
+			}
+			if (delay !== null) {
+				let id = setInterval(tick, delay);
+				return () => clearInterval(id);
+			}
+		},
+		[delay]
+	);
+}
